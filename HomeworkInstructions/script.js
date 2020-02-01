@@ -29,7 +29,7 @@ $(document).ready(function () {
         });
     }
 
-    function saveLocal() {
+    function saveLocal(searchForCity) {
         recentSearches.push(searchForCity);
         localStorage.setItem("recentSearches", JSON.stringify(recentSearches));
         //addToDrop();
