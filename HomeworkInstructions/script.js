@@ -13,9 +13,11 @@ $(document).ready(function () {
         console.log(searchForCity);
         var searchForCountry = $('.search-for-country').val();
         var searchForBoth = searchForCity + "," + searchForCountry;
+        saveLocal(searchForCity);
         searchWeather(searchForBoth);
         console.log(searchForBoth);
-        saveLocal(searchForCity);
+
+
 
     });
 
@@ -29,6 +31,7 @@ $(document).ready(function () {
         }).then(function (response) {
             console.log(response);
             fillOutToday(response);
+            fillOutForecast(response);
         });
     }
 
@@ -72,6 +75,35 @@ $(document).ready(function () {
         console.log(fahrTemp);
         $('#todays-temp').html(fahrTemp + " Fahrenheit");
 
+    }
+
+    function fillOutForecast(response) {
+        var futureDay = 1;
+        for (var i = 4; i < response.list.length; i += 8) {
+
+            // DATE get and post to page
+            var forcastDate = response.list[i].dt_txt;
+            $('#day' + futureDay + '-date').html(forcastDate);
+
+            // ICON get and post to page
+            var forcastIcon = response.list[i].weather[0].icon;
+            var iconurl = "http://openweathermap.org/img/w/" + forcastIcon + ".png";
+            $('#day' + futureDay + '-cond-icon').attr('src', iconurl);
+            $('#day' + futureDay + '-cond-icon').attr('style', 'display: inline');
+
+            //HUMIDITY get and post to page
+            var forcastHumid = response.list[i].main.humidity;
+            $('#day' + futureDay + '-humid').html(forcastHumid + " Humidity");
+
+
+            // TEMPERATURE get and post to page 
+            var forcastTemp = response.list[i].main.temp;
+            var forcastfahrTemp = parseInt(((1.8 * (forcastTemp - 273)) + 32));
+            $('#day' + futureDay + '-temp').html(forcastfahrTemp + " Fahrenheit");
+
+
+            futureDay++;
+        }
     }
 
 });

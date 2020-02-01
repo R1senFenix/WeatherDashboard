@@ -35,7 +35,7 @@
         ^^ an icon representation of weather conditions
         ^^ the temperature, 
         ^^ the humidity, 
-        the wind speed
+        ^^ the wind speed
         UV index
         -->
         <h2 id="entered-city-value"></h2>
@@ -51,7 +51,7 @@
         />
       </div>
       <br />
-      <div class="ultraviolet-show">
+      <div class="ultraviolet show">
         <!--
               presented with a color 
               that indicates whether the 
@@ -60,16 +60,65 @@
       </div>
       <div class="forcast-date">
         <div id="date+1">
+          <h3 id="day1-date"></h3>
+          <h4 id="day1-temp"></h4>
+          <h5 id="day1-humid"></h5>
+          <img
+            id="day1-cond-icon"
+            src=""
+            alt="Weather"
+            style="display: none;"
+          />
           <!--need to retrieve:
             the date
             an icon representation of weather conditions
             the temperature, 
             the humidity
         --></div>
-        <div id="date+2"></div>
-        <div id="date+3"></div>
-        <div id="date+4"></div>
-        <div id="date+5"></div>
+        <div id="date+2">
+          <h3 id="day2-date"></h3>
+          <h4 id="day2-temp"></h4>
+          <h5 id="day2-humid"></h5>
+          <img
+            id="day2-cond-icon"
+            src=""
+            alt="Weather"
+            style="display: none;"
+          />
+        </div>
+        <div id="date+3">
+          <h3 id="day3-date"></h3>
+          <h4 id="day3-temp"></h4>
+          <h5 id="day3-humid"></h5>
+          <img
+            id="day3-cond-icon"
+            src=""
+            alt="Weather"
+            style="display: none;"
+          />
+        </div>
+        <div id="date+4">
+          <h3 id="day4-date"></h3>
+          <h4 id="day4-temp"></h4>
+          <h5 id="day4-humid"></h5>
+          <img
+            id="day4-cond-icon"
+            src=""
+            alt="Weather"
+            style="display: none;"
+          />
+        </div>
+        <div id="date+5">
+          <h3 id="day5-date"></h3>
+          <h4 id="day5-temp"></h4>
+          <h5 id="day5-humid"></h5>
+          <img
+            id="day5-cond-icon"
+            src=""
+            alt="Weather"
+            style="display: none;"
+          />
+        </div>
       </div>
     </div>
     <script src="script.js"></script>
