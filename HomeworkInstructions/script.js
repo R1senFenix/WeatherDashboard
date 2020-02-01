@@ -1,13 +1,14 @@
 $(document).ready(function () {
-    if (typeof localSearches === 'undefined') {
+    if (typeof localSearches == 'undefined') {
         var recentSearches = [];
     } else {
         var recentSearches = JSON.parse(localSearches.getItem("recentSearches"));
-        console.log(recentSearches);
+        //console.log(recentSearches);
     }
     // get the search input
     $('.submit-btn').click(function () {
         event.preventDefault();
+        $('main-container').text("")
         var searchForCity = $('.search-for-city').val();
         console.log(searchForCity);
         var searchForCountry = $('.search-for-country').val();
@@ -15,6 +16,7 @@ $(document).ready(function () {
         searchWeather(searchForBoth);
         console.log(searchForBoth);
         saveLocal(searchForCity);
+
     });
 
     //Calls the ajax
@@ -26,12 +28,50 @@ $(document).ready(function () {
             dataType: "json",
         }).then(function (response) {
             console.log(response);
+            fillOutToday(response);
         });
     }
 
     function saveLocal(searchForCity) {
         recentSearches.push(searchForCity);
         localStorage.setItem("recentSearches", JSON.stringify(recentSearches));
+        //console.log(recentSearches);
+        //console.log(localStorage);
         //addToDrop();
     }
+
+    function fillOutToday(response) {
+        // CITY get and fillout on page
+        var searchForCity2 = $('.search-for-city').val();
+        $("#entered-city-value").html(searchForCity2);
+
+        // DATE get and post to page
+        var todayDate = response.list[0].dt_txt;
+        $('#todays-date').html(todayDate);
+
+        // ICON get and post to page
+        var todaysIcon = response.list[0].weather[0].icon;
+        var iconurl = "http://openweathermap.org/img/w/" + todaysIcon + ".png";
+        $('#todays-cond-icon').attr('src', iconurl);
+        $('#todays-cond-icon').attr('style', 'display: inline');
+
+        //HUMIDITY get and post to page
+        var todayHumid = response.list[0].main.humidity;
+        console.log(todayHumid);
+        $('#todays-humid').html(todayHumid + " Humidity");
+
+        //WIND SPEED get and post to page
+        var todayWSpeed = response.list[0].wind.speed;
+        console.log(todayWSpeed);
+        $('#todays-wind-speed').html(todayWSpeed + " Wind Speed");
+
+        // TEMPERATURE get and post to page 
+        var todayTemp = response.list[0].main.temp;
+        console.log(todayTemp);
+        var fahrTemp = parseInt(((1.8 * (todayTemp - 273)) + 32));
+        console.log(fahrTemp);
+        $('#todays-temp').html(fahrTemp + " Fahrenheit");
+
+    }
+
 });
