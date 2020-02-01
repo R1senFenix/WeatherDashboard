@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <script
+      src="https://code.jquery.com/jquery-3.4.1.js"
+      integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
+      crossorigin="anonymous"
+    ></script>
+    <title>Weather App</title>
+  </head>
+  <body>
+    <form>
+      <h5>City:</h5>
+      <input
+        class="search-for-city"
+        type="text"
+        placeholder="Enter a City Name"
+      />
+      <h5>State:</h5>
+      <input
+        class="search-for-country"
+        type="text"
+        placeholder="Enter a country abbreviation"
+      />
+      <input class="submit-btn" type="submit" />
+    </form>
+    <div class="main-container">
+      <div class="current-date">
+        <!--need to retrieve:
+        city name
+        the date
+        an icon representation of weather conditions
+        the temperature, 
+        the humidity, 
+        the wind speed
+        UV index
+        -->
+      </div>
+      <br />
+      <div class="ultraviolet-show">
+        <!--
+              presented with a color 
+              that indicates whether the 
+              conditions are favorable, moderate, or severe
+          -->
+      </div>
+      <div class="forcast-date">
+        <div id="date+1">
+          <!--need to retrieve:
+            the date
+            an icon representation of weather conditions
+            the temperature, 
+            the humidity
+        --></div>
+        <div id="date+2"></div>
+        <div id="date+3"></div>
+        <div id="date+4"></div>
+        <div id="date+5"></div>
+      </div>
+    </div>
+    <script src="script.js"></script>
+  </body>
+</html>
