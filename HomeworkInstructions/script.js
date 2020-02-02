@@ -1,25 +1,13 @@
 $(document).ready(function () {
 
-    if (typeof recentSearches === 'undefined') {
+    if ((localStorage.getItem("recentSearches") === null)) {
         var recentSearches = [];
         console.log(recentSearches);
-        localStorage.setItem("recentSearches", JSON.stringify(recentSearches));
     } else {
         var recentSearches = JSON.parse(localStorage.getItem("recentSearches"));
         console.log(recentSearches);
     }
-
-    for (var i = 0; i < recentSearches.length; i++) {
-
-        var createNewOption = $("<option>");
-        createNewOption.addClass("autoOption");
-        createNewOption.attr("id", recentSearches[i]);
-        createNewOption.attr("value", recentSearches[i]);
-        $(createNewOption).text(recentSearches[i]);
-        console.log(recentSearches[i]);
-    }
-    $("#recent-search-list").append(createNewOption);
-
+    getDropDown();
     $("#show-forcast-btn").click(function () {
         $(".current-date").css('visibility', 'hidden');
         $(".forcast-date").css('visibility', 'visible');
@@ -38,12 +26,11 @@ $(document).ready(function () {
         console.log(searchForCity);
         var searchForCountry = $('.search-for-country').val();
         var searchForBoth = searchForCity + "," + searchForCountry;
-        saveLocal(searchForBoth);
+        recentSearches.push(searchForBoth);
+        localStorage.setItem("recentSearches", JSON.stringify(recentSearches));
+        addToDropDown(searchForBoth);
         searchWeather(searchForBoth);
         console.log(searchForBoth);
-
-
-
     });
 
     //Calls the ajax
@@ -69,11 +56,6 @@ $(document).ready(function () {
             console.log(response);
             fillOutForecast(response);
         });
-    }
-
-    function saveLocal(searchForBoth) {
-        recentSearches.push(searchForBoth);
-        localStorage.setItem("recentSearches", JSON.stringify(recentSearches));
     }
 
     function fillOutToday(response) {
@@ -179,5 +161,31 @@ $(document).ready(function () {
             $('.ultraviolet').attr('style', 'background-color: green');
         }
     }
+    function getDropDown() {
+        for (var i = 0; i < recentSearches.length; i++) {
+            var createNewOption = $("<option>");
+            createNewOption.addClass("autoOption");
+            createNewOption.attr("id", recentSearches[i]);
+            createNewOption.attr("value", recentSearches[i]);
+            $(createNewOption).text(recentSearches[i]);
+            $("#recent-search-list").append(createNewOption);
+        }
+    }
+
+    function addToDropDown(searchForBoth) {
+        var createNewOption = $("<option>");
+        createNewOption.addClass("autoOption");
+        createNewOption.attr("id", searchForBoth);
+        createNewOption.attr("value", searchForBoth);
+        $(createNewOption).text(searchForBoth);
+        $("#recent-search-list").append(createNewOption);
+    }
+
+    $(".autoOption").click(function () {
+        console.log(this);
+        var applySearch = $(this).val();
+        var appliedSearchSplit = applySearch.split(",")
+        console.log(appliedSearchSplit);
+    });
 
 });
