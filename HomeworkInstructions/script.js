@@ -1,10 +1,34 @@
 $(document).ready(function () {
-    if (typeof localSearches == 'undefined') {
+
+    if (typeof Searches == 'undefined') {
         var recentSearches = [];
+        console.log(recentSearches);
     } else {
-        var recentSearches = JSON.parse(localSearches.getItem("recentSearches"));
-        //console.log(recentSearches);
+        var recentSearches = JSON.parse(localStorage.getItem("recentSearches"));
+        console.log(recentSearches);
     }
+
+    for (var i = 0; i < recentSearches.length; i++) {
+
+        var createNewOption = $("<option>");
+        createNewOption.addClass("autoOption");
+        createNewOption.attr("id", recentSearches[i]);
+        createNewOption.attr("value", recentSearches[i]);
+        $(createNewOption).text(recentSearches[i]);
+        console.log(recentSearches[i]);
+    }
+    $("#recent-search-list").append(createNewOption);
+
+    $("#show-forcast-btn").click(function () {
+        $(".current-date").css('visibility', 'hidden');
+        $(".forcast-date").css('visibility', 'visible');
+    });
+
+    $("#show-today-btn").click(function () {
+        $(".current-date").css('visibility', 'visible');
+        $(".forcast-date").css('visibility', 'hidden');
+    });
+
     // get the search input
     $('.submit-btn').click(function () {
         event.preventDefault();
@@ -44,6 +68,9 @@ $(document).ready(function () {
     }
 
     function fillOutToday(response) {
+
+        $(".current-date").css('visibility', 'visible');
+
         // CITY get and fillout on page
         var searchForCity2 = $('.search-for-city').val();
         $("#entered-city-value").html(searchForCity2);
@@ -56,7 +83,6 @@ $(document).ready(function () {
         var todaysIcon = response.list[0].weather[0].icon;
         var iconurl = "http://openweathermap.org/img/w/" + todaysIcon + ".png";
         $('#todays-cond-icon').attr('src', iconurl);
-        $('#todays-cond-icon').attr('style', 'display: inline');
 
         //HUMIDITY get and post to page
         var todayHumid = response.list[0].main.humidity;
@@ -105,5 +131,6 @@ $(document).ready(function () {
             futureDay++;
         }
     }
+
 
 });

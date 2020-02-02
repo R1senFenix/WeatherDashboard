@@ -1,0 +1,15 @@
+form {
+  margin-top: 2%;
+}
+
+.main-container {
+  visibility: hidden;
+}
+
+.forcast-date {
+  visibility: hidden;
+}
+
+.show-button {
+  margin: auto;
+}

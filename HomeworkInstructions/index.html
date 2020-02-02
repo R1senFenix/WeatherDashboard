@@ -5,31 +5,57 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <script
+      src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+      integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+      crossorigin="anonymous"
+    ></script>
+    <script
       src="https://code.jquery.com/jquery-3.4.1.js"
       integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
       crossorigin="anonymous"
     ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+      integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+      integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+      crossorigin="anonymous"
+    ></script>
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+      integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+      crossorigin="anonymous"
+    />
+    <link rel="stylesheet" href="style.css" />
     <title>Weather App</title>
   </head>
-  <body>
-    <form>
-      <h5>City:</h5>
+  <body class="container">
+    <form class="border row">
+      <select class="col-2" id="recent-search-list"> </select>
+      <label class="col">City:</label>
       <input
         class="search-for-city"
         type="text"
         placeholder="Enter a City Name"
       />
-      <h5>State:</h5>
+      <div class="col"></div>
+      <label class="col">Country:</label>
       <input
         class="search-for-country"
         type="text"
         placeholder="Enter a country abbreviation"
       />
-      <input class="submit-btn" type="submit" />
+      <input class="submit-btn col" type="submit" />
+      <br />
     </form>
-    <div class="main-container">
+    <div class="main-container d-flex justify-content-center row">
       <div class="current-date">
-        <!--need to retrieve:
+        <div class="card">
+          <!--need to retrieve:
         ^^ city name
         ^^ the date
         ^^ an icon representation of weather conditions
@@ -38,87 +64,92 @@
         ^^ the wind speed
         UV index
         -->
-        <h2 id="entered-city-value"></h2>
-        <h3 id="todays-date"></h3>
-        <h4 id="todays-temp"></h4>
-        <h5 id="todays-humid"></h5>
-        <h6 id="todays-wind-speed"></h6>
-        <img
-          id="todays-cond-icon"
-          src=""
-          alt="Weather"
-          style="display: none;"
-        />
-      </div>
-      <br />
-      <div class="ultraviolet show">
-        <!--
+          <h2 id="entered-city-value"></h2>
+          <h3 id="todays-date"></h3>
+          <h4 id="todays-temp"></h4>
+          <h5 id="todays-humid"></h5>
+          <h6 id="todays-wind-speed"></h6>
+          <img id="todays-cond-icon" src="" alt="Weather" />
+        </div>
+        <br />
+        <div class="ultraviolet row">
+          <!--
               presented with a color 
               that indicates whether the 
               conditions are favorable, moderate, or severe
           -->
+        </div>
+        <br />
+        <button class="show-button" id="show-forcast-btn">Show Forcast</button>
       </div>
       <div class="forcast-date">
-        <div id="date+1">
-          <h3 id="day1-date"></h3>
-          <h4 id="day1-temp"></h4>
-          <h5 id="day1-humid"></h5>
-          <img
-            id="day1-cond-icon"
-            src=""
-            alt="Weather"
-            style="display: none;"
-          />
-          <!--need to retrieve:
-            the date
-            an icon representation of weather conditions
-            the temperature, 
-            the humidity
-        --></div>
-        <div id="date+2">
-          <h3 id="day2-date"></h3>
-          <h4 id="day2-temp"></h4>
-          <h5 id="day2-humid"></h5>
-          <img
-            id="day2-cond-icon"
-            src=""
-            alt="Weather"
-            style="display: none;"
-          />
+        <div class="d-flex justify-content-center row">
+          <div class="d-flex justify-content-center card" id="date+1 col">
+            <h3 id="day1-date"></h3>
+            <h4 id="day1-temp"></h4>
+            <h5 id="day1-humid"></h5>
+            <img
+              id="day1-cond-icon"
+              src=""
+              alt="Weather"
+              style="display: none;"
+            />
+            <!--need to retrieve:
+            ^^ the date
+            ^^ an icon representation of weather conditions
+            ^^ the temperature, 
+            ^^ the humidity
+        -->
+          </div>
+          <div class="d-flex justify-content-center card" id="date+2 col">
+            <h3 id="day2-date"></h3>
+            <h4 id="day2-temp"></h4>
+            <h5 id="day2-humid"></h5>
+            <img
+              id="day2-cond-icon"
+              src=""
+              alt="Weather"
+              style="display: none;"
+            />
+          </div>
+          <div class="d-flex justify-content-center card" id="date+3 col">
+            <h3 id="day3-date"></h3>
+            <h4 id="day3-temp"></h4>
+            <h5 id="day3-humid"></h5>
+            <img
+              id="day3-cond-icon"
+              src=""
+              alt="Weather"
+              style="display: none;"
+            />
+          </div>
+          <div class="d-flex justify-content-center card" id="date+4 col">
+            <h3 id="day4-date"></h3>
+            <h4 id="day4-temp"></h4>
+            <h5 id="day4-humid"></h5>
+            <img
+              id="day4-cond-icon"
+              src=""
+              alt="Weather"
+              style="display: none;"
+            />
+          </div>
+          <div class="d-flex justify-content-center card" id="date+5 col">
+            <h3 id="day5-date"></h3>
+            <h4 id="day5-temp"></h4>
+            <h5 id="day5-humid"></h5>
+            <img
+              id="day5-cond-icon"
+              src=""
+              alt="Weather"
+              style="display: none;"
+            />
+          </div>
+          <br />
         </div>
-        <div id="date+3">
-          <h3 id="day3-date"></h3>
-          <h4 id="day3-temp"></h4>
-          <h5 id="day3-humid"></h5>
-          <img
-            id="day3-cond-icon"
-            src=""
-            alt="Weather"
-            style="display: none;"
-          />
-        </div>
-        <div id="date+4">
-          <h3 id="day4-date"></h3>
-          <h4 id="day4-temp"></h4>
-          <h5 id="day4-humid"></h5>
-          <img
-            id="day4-cond-icon"
-            src=""
-            alt="Weather"
-            style="display: none;"
-          />
-        </div>
-        <div id="date+5">
-          <h3 id="day5-date"></h3>
-          <h4 id="day5-temp"></h4>
-          <h5 id="day5-humid"></h5>
-          <img
-            id="day5-cond-icon"
-            src=""
-            alt="Weather"
-            style="display: none;"
-          />
-        </div>
+        <button class="show-button" id="show-today-btn">
+          Show Today's Weather
+        </button>
       </div>
     </div>
     <script src="script.js"></script>
