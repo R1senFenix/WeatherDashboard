@@ -1,8 +1,9 @@
 $(document).ready(function () {
 
-    if (typeof Searches == 'undefined') {
+    if (typeof recentSearches === 'undefined') {
         var recentSearches = [];
         console.log(recentSearches);
+        localStorage.setItem("recentSearches", JSON.stringify(recentSearches));
     } else {
         var recentSearches = JSON.parse(localStorage.getItem("recentSearches"));
         console.log(recentSearches);
@@ -37,7 +38,7 @@ $(document).ready(function () {
         console.log(searchForCity);
         var searchForCountry = $('.search-for-country').val();
         var searchForBoth = searchForCity + "," + searchForCountry;
-        saveLocal(searchForCity);
+        saveLocal(searchForBoth);
         searchWeather(searchForBoth);
         console.log(searchForBoth);
 
@@ -47,6 +48,18 @@ $(document).ready(function () {
 
     //Calls the ajax
     function searchWeather(searchForBoth) {
+        //Gets Today Response
+        $.ajax({
+            url: "http://api.openweathermap.org/data/2.5/weather?q=" + searchForBoth + '&APPID=9281dbe33d6371c2c8b80f96b4c64d8b&mode=json',
+            method: "GET",
+            id: 2643741,
+            dataType: "json",
+        }).then(function (response) {
+            console.log(response);
+            fillOutToday(response);
+        });
+
+        //gets Forcast Response
         $.ajax({
             url: 'http://api.openweathermap.org/data/2.5/forecast?q=' + searchForBoth + '&APPID=9281dbe33d6371c2c8b80f96b4c64d8b&mode=json',
             method: "GET",
@@ -54,17 +67,13 @@ $(document).ready(function () {
             dataType: "json",
         }).then(function (response) {
             console.log(response);
-            fillOutToday(response);
             fillOutForecast(response);
         });
     }
 
-    function saveLocal(searchForCity) {
-        recentSearches.push(searchForCity);
+    function saveLocal(searchForBoth) {
+        recentSearches.push(searchForBoth);
         localStorage.setItem("recentSearches", JSON.stringify(recentSearches));
-        //console.log(recentSearches);
-        //console.log(localStorage);
-        //addToDrop();
     }
 
     function fillOutToday(response) {
@@ -76,30 +85,47 @@ $(document).ready(function () {
         $("#entered-city-value").html(searchForCity2);
 
         // DATE get and post to page
-        var todayDate = response.list[0].dt_txt;
-        $('#todays-date').html(todayDate);
+        var todayDate = new Date();
+
+        var today = todayDate.getFullYear() + '-' + (todayDate.getMonth() + 1) + '-' + todayDate.getDate();
+        console.log(today);
+        $('#todays-date').html(today);
 
         // ICON get and post to page
-        var todaysIcon = response.list[0].weather[0].icon;
+        var todaysIcon = response.weather[0].icon;
         var iconurl = "http://openweathermap.org/img/w/" + todaysIcon + ".png";
         $('#todays-cond-icon').attr('src', iconurl);
 
         //HUMIDITY get and post to page
-        var todayHumid = response.list[0].main.humidity;
+        var todayHumid = response.main.humidity;
         console.log(todayHumid);
         $('#todays-humid').html(todayHumid + " Humidity");
 
         //WIND SPEED get and post to page
-        var todayWSpeed = response.list[0].wind.speed;
+        var todayWSpeed = response.wind.speed;
         console.log(todayWSpeed);
         $('#todays-wind-speed').html(todayWSpeed + " Wind Speed");
 
         // TEMPERATURE get and post to page 
-        var todayTemp = response.list[0].main.temp;
+        var todayTemp = response.main.temp;
         console.log(todayTemp);
         var fahrTemp = parseInt(((1.8 * (todayTemp - 273)) + 32));
         console.log(fahrTemp);
         $('#todays-temp').html(fahrTemp + " Fahrenheit");
+
+        var todayLon = response.coord.lon;
+        console.log(todayLon);
+        var todayLat = response.coord.lat;
+        console.log(todayLat);
+        $.ajax({
+            url: 'http://api.openweathermap.org/data/2.5/uvi?&lat=' + todayLat + '&lon=' + todayLon + '&appid=9281dbe33d6371c2c8b80f96b4c64d8b&mode=json',
+            method: "GET",
+            id: 2643741,
+            dataType: "json",
+        }).then(function (response) {
+            console.log(response);
+            UVColorization(response);
+        });
 
     }
 
@@ -132,5 +158,26 @@ $(document).ready(function () {
         }
     }
 
+    function UVColorization(response) {
+        var UVIndex = response.value;
+        console.log(UVIndex);
+
+        if (UVIndex > 10) {
+            $('#todays-uv').html("Extreme");
+            $('.ultraviolet').attr('style', 'background-color: violet');
+        } else if (UVIndex > 8 && UVIndex <= 10) {
+            $('#todays-uv').html("Very High");
+            $('.ultraviolet').attr('style', 'background-color: red');
+        } else if (UVIndex > 6 && UVIndex <= 8) {
+            $('#todays-uv').html("High");
+            $('.ultraviolet').attr('style', 'background-color: orange');
+        } else if (UVIndex > 3 && UVIndex <= 6) {
+            $('#todays-uv').html("Moderate");
+            $('.ultraviolet').attr('style', 'background-color: yellow');
+        } else if (UVIndex > 0 && UVIndex < 3) {
+            $('#todays-uv').html("Low");
+            $('.ultraviolet').attr('style', 'background-color: green');
+        }
+    }
 
 });

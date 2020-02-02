@@ -11,5 +11,8 @@ form {
 }
 
 .show-button {
-  margin: auto;
+  display: block;
+  margin: 0 auto;
+  margin-top: 2%;
+  width: 50%;
 }
